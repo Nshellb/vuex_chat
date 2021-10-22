@@ -48,3 +48,31 @@ ChatList.vue 에서 props 로 전달받은 Data 는 다시 ChatListItem.vue 에 
 
 message count 를 App.vue 에서 각 componet 에 동기화 되는 구조.
 그러나 componet 가 추가될때 마다 App.vue 에서 동기화 하기위한 로직이 추가되어야 하는 번거로움이 있다.
+
+
+
+
+
+
+Vue.js 상태관리 - Event bus
+
+Event-bus 를 이용한 부모-자식간 componet 로 연관되지 않은 componet 끼리 event 를 주고 받는 방법.
+event 를 받아 Data 를 update 하는 방법.
+
+
+
+App.vue 에서 기존 방식으로 event 를 받아오는 방법
+App.vue 과 ChatList.vue 와 같이 부모자식 관계의 componet 끼리는 this.$emit 을 통해서 이벤트를 발생시키고
+App.vue 에서 @read-item="readChatItem" 형태로 받아온다.
+각 component 의 하위항목이 늘어날때마다 불필요한 로직이 계속해서 추가되어야한다.
+
+
+
+Event bus
+vue 에 기본적으로 선언된 event 관련 기능을 활용해서 vue 인스턴스를 별도로 만들어 event 를 발생시키고 받아오는 도구로 사용.
+
+새로운 vue 인스턴스를 만들어서 bus 라는 상수에 저장한다. (import Vue 필요)
+created method 에 BUTTON-CLICK event 에 대해 선언한다.
+버튼클릭시에는 $emit 으로 선언한 BUTTON-CLICK event 를 실행시킨다.
+결과적으로 BUTTON-CLICK event 의 실행결과인 console.log 로 data 를 출력한다.
+

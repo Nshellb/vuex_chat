@@ -68,7 +68,7 @@ App.vue 에서 @read-item="readChatItem" 형태로 받아온다.
 
 
 
-Event bus
+Event bus 예시
 vue 에 기본적으로 선언된 event 관련 기능을 활용해서 vue 인스턴스를 별도로 만들어 event 를 발생시키고 받아오는 도구로 사용.
 
 새로운 vue 인스턴스를 만들어서 bus 라는 상수에 저장한다. (import Vue 필요)
@@ -76,3 +76,26 @@ created method 에 BUTTON-CLICK event 에 대해 선언한다.
 버튼클릭시에는 $emit 으로 선언한 BUTTON-CLICK event 를 실행시킨다.
 결과적으로 BUTTON-CLICK event 의 실행결과인 console.log 로 data 를 출력한다.
 
+
+
+Event bus 적용
+
+1) src/event-bus.js 생성
+새로운 Vue 인스턴스를 생성하고 bus 에 넣고 export.
+이 파일을 import 해서 사용하면 된다.
+
+ChatListItem.vue 에서 발생시키는 Click event 를 event-bus 를 통해 app 으로 전달.
+
+2) ChatListItem.vue, ChatList.vue, App.vue 각각에서 전달받던 용도의 코드를 모두 제거
+(click event 내용, @XXX="XXXX" 형태의 코드)
+브라우저에서 확인시 기능 동작이 없을것임.
+
+3) event-bus 코드 추가 
+ChatListItem.vue 에 bus 추가. import 후 bus 의 event-bus 에 event 발생
+App.vue 의 created 에 click event 를 받고 readChatItem 를 실행하는 bus  적용
+
+기능 정상동작 확인.
+
+기능이 많아지고 코드가 복잡해질 수 록 어떤 event 를 발생시키고 있는지 파악하기 힘들어 관리가 힘들다.
+대형 프로젝트에서는 대개 vuex 를 활용하여 어떤 event 를 사용중인지 쉽게 파악하고
+로그인한 유저정보와 같은 다양한 componet 에서 사용하는 Data 와 같은 Data 를 한번에 가져오고 수정이 가능하다.

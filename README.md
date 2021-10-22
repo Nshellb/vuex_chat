@@ -48,8 +48,3 @@ ChatList.vue 에서 props 로 전달받은 Data 는 다시 ChatListItem.vue 에 
 
 message count 를 App.vue 에서 각 componet 에 동기화 되는 구조.
 그러나 componet 가 추가될때 마다 App.vue 에서 동기화 하기위한 로직이 추가되어야 하는 번거로움이 있다.
-
-
-
-
-

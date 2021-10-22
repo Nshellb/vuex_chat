@@ -213,3 +213,18 @@ chatList(state) {
 
 
 + component 의 data 를 가져와서 사용하는 경우 ...mapState 안에 this.~ 으로 호출하면된다.
+
+
+
+3) Getter 로 vuex 값 가져오기
+여러 component 에서 공통으로 특정 값만 가져오는 로직을 사용할때 각 component 에 개별로 선언하지 않고
+vuex 에 getter 로 정의해서 사용할 수 있다.
+
+store/index.js 에 
+state 정의와 같은 형태로 getter 영역을 작성하고
+chatList: (state, getters) => state.chatList.filter(chat => chat.new >= 2) 
+- (state, getters) : vuex 내부에 접근할 수 있는 state 값, 개발자가 만든 다른 getter 들에 접근할 수 있도록 만든 getter 들이 들어온다.
+- state.chatList.filter(chat => chat.new >= 2) : method 를 선언하여 필요한 data 만 가져오는 로직 부분.
+
+App.vue 에 
+mapState 대신 mapGetters 를 import.

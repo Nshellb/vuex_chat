@@ -34,4 +34,7 @@ export default new Vuex.Store({
   },
   modules: {
   },
+  getters: {
+    chatList: (state, getters) => state.chatList.filter(chat => chat.new >= 2) // vuex 내부에 접근할 수 있는 state 값, 개발자가 만든 다른 getter 들에 접근할 수 있도록 만든 getter 들이 들어온다.
+  }
 })

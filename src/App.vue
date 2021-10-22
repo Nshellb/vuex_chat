@@ -60,6 +60,9 @@ export default {
       this.readChatItem(chat); // 기존에 선언한 readChatItem 를 호출
     });
   },
+  mounted() {
+    console.log(this.$store); // store 연결확인.
+  },
   components: {
     Header,
     ChatList,

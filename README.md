@@ -265,3 +265,15 @@ Action 아 Mutation 을 실행하지만 그렇지 않고 있다.
 component 에서 Mutation 을 바로 실행하기도 하지만 
 Mutation은 항상 동기적이어야 한다.
 -> Action 에서 비동기 처리를 한뒤 Mutation 에서 동기적 처리로 state 에 반영하는 형태로 실행되어야 한다.
+
+
+
+6) Mutation 의 동기 처리하기 전을 위한 비동기 처리 Action 작성
+state 처럼 actions 영역을 작성.
+method 형태로 action 선언.
+
+this.$store.dispatch('readChat', {...this.chat}); // $store 의 dispatch method 로 Action 을 실행. / 실행할 Action 명, Action 에 넘길 data.
+
+Mutation 은 commit, Action 은 dispatch 로 실행된다.
+
+실제 서비스 에서는 Action 에서 API 호출을 해서 서버 DB 에 읽음 상태로 변경한뒤 Mutation 을 실행하는 코드를 작성 하게될것.

@@ -33,9 +33,6 @@ export default {
     })
   },
   methods: {
-    readChatItem(chatItem) { // 각 항목에 click event 를 받아서 count 를 0으로 만들어주는 method
-      this.chatList.filter(item => item.id === chatItem.id)[0].new = 0; // 클릭한 item 값의 id 값을 찾아서 클릭한 항목의 알림 count 를 0으로 만든다.
-    }
   },
   created() { // componet 가 생성될때 실행되는 method
     bus.$on('CHAT_CLICK', chat => { // CHAT_CLICK event 를 받아와서

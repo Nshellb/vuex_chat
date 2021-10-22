@@ -157,3 +157,59 @@ Vue 인스턴스 생성 위치에도 store 를 추가한다.
 
 App.vue 에서 component 가 화면에 뿌려진뒤 실행되는 mounted method 에서
 store 에 접근이 잘되는지 console.log 로 찍어서 확인.
+
+
+
+
+
+
+Vue.js 상태관리 - Vuex 사용하기
+
+1) Vuex 에 Data 넣기
+App.vue 의 data 항목을 store/index.js 의 state 에 넣기.
+App.vue 에서 없어진 chatList 를 vuex 에서 가져와야 함.
+
+vuex 에서 Data 를 가져오기 위해서는 vuex 에서 제공하는 mapState helper 를 사용.
+mapState helper 를 App.vue 에 import 하고
+computed 에 mapState 로 값을 가져오는 구문 작성. (mapState 함수가 return 하는 값을 받아옴.)
+
+(+ ...는 스프레드 연산자로, json 이나 배열을 쉽게 합칠 수 있게 한다.
+아래는 예제 코드
+let json1 = {a: 'a', b: 'b'};
+let json2 = {c: 'c', d: 'd'};
+
+{...json1, ...json2}
+
+결과 : {a: "a", b: "b", c: "c", d: "d"} )
+
+스프레드 연산자를 사용하면 개발자가 만든 코드와 mapState Helper 함수가 return 한 내용을 병합해서
+computed 로 사용할 수 있도록 Vue.js 에게 알려주게된다.
+
+
+2) Vuex state 의 data 가져오기
+mapState 로 Data 를 꺼내오는 방법은 3가지가 있다.
+
+방법 1 
+vuex state 에서 받아올 값과 위치를 지정하는 방법
+...mapState 내부에 다음 구문 정의.
+chatList: state => state.chatList // component 에서 변수처럼 사용할 변수명 : State 에서 원하는 값을 꺼내올 익명함수를 정의
+이 익명함수는 vuex state 를 parameter 로 받아서 내부에 접근이 가능하다.
+브라우저 Vue 개발툴에서 vuex bindings 아래에 데이터가 잘 들어가 있는것을 확인할수 있다.
+
+
+방법 2
+Vuex state 에서 바로 값을 가져와서 적용하는 방법
+...mapState 내부에 다음 구문 정의.
+chatList: state => 'chatList' // vuex 의 state 값인 chatList 를 그대로 사용하여 가져옴.
+
+
+방법 3
+Vuex state 에서 해당하는 값을 method 형태로 가져오는 방법.
+가져온 state 값과 내부 data 값을 가지고 계산해야하는 등의 복잡한 작업이 필요한 경우에 사용.
+...mapState 내부에 다음 구문 정의.
+chatList(state) {
+    return state.chatList.filter(chat => chat.new >= 2); // method 를 선언하여 필요한 data 만 가져오는 로직 작성. new 가 2개 이상인 경우만 가져옴.
+}
+
+
++ component 의 data 를 가져와서 사용하는 경우 ...mapState 안에 this.~ 으로 호출하면된다.

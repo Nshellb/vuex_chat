@@ -12,8 +12,9 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import ChatList from '@/components/ChatList.vue'
+import { mapState } from 'vuex'; // vuex 에서 Data 를 가져오기 위한 mapState helper
+import Header from '@/components/Header.vue';
+import ChatList from '@/components/ChatList.vue';
 
 import { bus } from '@/event-bus.js'; // 파일에서 export 한 bus 를 가져옴.
 
@@ -21,34 +22,17 @@ export default {
   name: 'app',
   data() {
     return {
-      chatList: [ // chatList 임의 지정
-        {
-          id: 1, // chat 식별 번호
-          lastMessage: '채팅 메시지1', // 가장 마지막으로 전달 받은 채팅 메시지
-          new: 1, // 읽지 않은 채팅 메시지 개수 count
-        },
-        {
-          id: 2,
-          lastMessage: '채팅 메시지2',
-          new: 2,
-        },
-        {
-          id: 3,
-          lastMessage: '채팅 메시지3',
-          new: 1,
-        },
-        {
-          id: 4,
-          lastMessage: '채팅 메시지4',
-          new: 5,
-        },
-      ]
     };
   },
   computed: {
     newMessageCount() { // 전체 count 계산 method
       return this.chatList.map(item => item.new).reduce((a, b) => a + b); // App.vue 에 선언된 chatList 에서 item => item.new 값만 가져온뒤 reduce(더하기) 연산
-    }
+    },
+    ...mapState({ // parameter 로 넘긴 json 값을 가지고 개발자가 원하는 state 를 꺼내와서 computed 로 사용할 수 있는 json 객체를 return 한다.
+      chatList(state) {
+        return state.chatList.filter(chat => chat.new >= 2); // method 를 선언하여 필요한 data 만 가져오는 로직 작성. new 가 2개 이상인 경우만 가져옴.
+      }
+    })
   },
   methods: {
     readChatItem(chatItem) { // 각 항목에 click event 를 받아서 count 를 0으로 만들어주는 method

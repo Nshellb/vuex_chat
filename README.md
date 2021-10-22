@@ -211,7 +211,6 @@ chatList(state) {
     return state.chatList.filter(chat => chat.new >= 2); // method 를 선언하여 필요한 data 만 가져오는 로직 작성. new 가 2개 이상인 경우만 가져옴.
 }
 
-
 + component 의 data 를 가져와서 사용하는 경우 ...mapState 안에 this.~ 으로 호출하면된다.
 
 
@@ -228,3 +227,41 @@ chatList: (state, getters) => state.chatList.filter(chat => chat.new >= 2)
 
 App.vue 에 
 mapState 대신 mapGetters 를 import.
+
+
+
+4) 비정상적인 vuex state 접근 차단 ( 2) 에서 이어짐 )
+Action, Mutation 조작이 없는데도 클릭 event 에 따른 vuex new 가 0으로 바뀌는 조작이 이루어지고 있다.
+
+store/index.js 에서
+strict: true, 를 통해서 vuex strict mode 를 켜야한다.
+strict mode 를 동작시키면 vuex 설계대로 동작하지 않는 event 들을 catch 해서 오류 메시지를 출력해준다.
+(조작을 막지는 못하지만 오류 메시지를 통해서 로직 수정에 용이하게 사용할 수 있다.)
+
+실제 배포시에 strict: true 를 사용하는 경우 성능저하 이슈가 발생할 수 있기 때문에
+strict: process.env.NODE_ENV != 'production', 으로 사용한다.
+nodejs 환경 변수를 사용해서 production 모드가 아닐때만 사용하도록 정의.
+production mode 로 compile 하는경우에는 오류 메시지가 출력되지 않음.
+
+
+
+5) State 를 변화시키는 Mutation 작성
+state 처럼 mutations 영역을 작성.
+선언한 mutation 에 기존 ChatListItem.vue 의 click event 실행 구문을 삭제하고
+App.vue 에서도 기존 click event 와 관련된 구문을 삭제.
+
+실제 클릭이 일어나는 component 인 ChatListItem.vue 의 click event method 에 vuex 를 활용한 구문을 작성한다.
+this.$store.commit('readChat', {...this.chat}); // $store 의 commit method 로 Mutation 을 실행. / 실행할 Mutation 명, Mutation 에 넘길 data
+
+ChatListItem.vue 의 props 인 chat 을 넘기는 것이 
+src/store/index.js 안에 있는 Mutation 의 chat 에 채팅 항목 값이 넘어간다.
+
+Mutation 에 넘겨받은 chat 값과 일치하는 id 값을 가진 state chatList 값의 new 값을 0으로 변경.(클릭한 항목의 new 값 0으로 변경)
+
+console 에 오류가 찍히지는 않지만 
+component 는 Action 을 실행하고 
+Action 아 Mutation 을 실행하지만 그렇지 않고 있다.
+
+component 에서 Mutation 을 바로 실행하기도 하지만 
+Mutation은 항상 동기적이어야 한다.
+-> Action 에서 비동기 처리를 한뒤 Mutation 에서 동기적 처리로 state 에 반영하는 형태로 실행되어야 한다.

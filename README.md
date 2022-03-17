@@ -3,6 +3,9 @@ Vue.js 를 활용한 채팅 메시지를 클릭하면 삭제되는 웹.
 
 Vuex 를 활용한 상태 관리 공부를 위한 개발이다.
 
+![image](https://user-images.githubusercontent.com/24907719/158751488-d2183cca-eec1-4aec-b912-50c71e6c5879.png)
+
+
 Vue.js 상태관리 - 각 part 설명
 
 App.vue
